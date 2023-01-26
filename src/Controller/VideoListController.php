@@ -13,7 +13,7 @@ class VideoListController extends HtmlController implements Controller
   public function processRequest(): void
   {
     $videoList = $this->videoRepository->all();
-    $this->renderTemplate(
+    echo $this->renderTemplate(
       'video-list',
       ['videoList' => $videoList]
     );
