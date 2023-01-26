@@ -3,15 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Alura\Mvc\Repository\VideoRepository;
-use Alura\Mvc\Controller\{
-  Controller,
-  VideoListController,
-  VideoFormController,
-  NewVideoController,
-  EditVideoController,
-  DeleteVideoController,
-  Error404Controller
-};
+use Alura\Mvc\Controller\Error404Controller;
 
 $config = require_once __DIR__ . '/../config.php';
 
@@ -45,4 +37,24 @@ if (array_key_exists($key, $routes)) {
     $controller = new Error404Controller();
 }
 
-$controller->processRequest();
+$psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
+
+$creator = new \Nyholm\Psr7Server\ServerRequestCreator(
+    $psr17Factory, // ServerRequestFactory
+    $psr17Factory, // UriFactory
+    $psr17Factory, // UploadedFileFactory
+    $psr17Factory  // StreamFactory
+);
+
+$request = $creator->fromGlobals();
+
+$response = $controller->handle($request);
+
+http_response_code($response->getStatusCode());
+foreach ($response->getHeaders() as $name => $values) {
+    foreach ($values as $value) {
+        header (sprintf('%s: %s', $name, $value), false);
+    }
+}
+
+echo $response->getBody();

@@ -9,5 +9,5 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface Controller
 {
-    public function processRequest(ServerRequestInterface $request): ResponseInterface;
+    public function handle(ServerRequestInterface $request): ResponseInterface;
 }
