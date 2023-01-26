@@ -13,8 +13,10 @@ use Alura\Mvc\Controller\{
   Error404Controller
 };
 
+$config = require_once __DIR__ . '/../config.php';
+
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=aluraplay', 'santiago', 's1Lv@83He');
+    $pdo = new PDO("mysql:host={$config['dbhost']};dbname={$config['dbname']}", "{$config['dbuser']}", "{$config['dbpass']}");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();

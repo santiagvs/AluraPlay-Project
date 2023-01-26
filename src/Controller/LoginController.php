@@ -9,8 +9,10 @@ class LoginController implements Controller
 
   public function __construct()
   {
+    $config = include __DIR__ . '/../../config.php';
     try {
-      $this->pdo = new PDO('mysql:host=localhost;dbname=aluraplay', 'santiago', 's1Lv@83He');
+
+      $this->pdo = new PDO("mysql:host={$config['dbhost']};dbname={$config['dbname']}", "{$config['dbuser']}", "{$config['dbpass']}");
       $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (\PDOException $e) {
       echo "Error: " . $e->getMessage();
@@ -45,3 +47,5 @@ class LoginController implements Controller
     }
   }
 }
+
+
