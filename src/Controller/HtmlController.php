@@ -2,7 +2,7 @@
 
 namespace Alura\Mvc\Controller;
 
-class HtmlController
+abstract class HtmlController implements Controller
 {
   private const TEMPLATE_PATH = __DIR__ . '/../../views/';
   protected function renderTemplate(string $templateName, array $context = []): void
