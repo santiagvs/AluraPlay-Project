@@ -3,5 +3,8 @@
     "psr-4": {
       "Alura\\Mvc\\": "src/"
     }
+  },
+  "require": {
+    "psr/http-message": "^1.0"
   }
 }
