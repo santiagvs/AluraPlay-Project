@@ -16,6 +16,10 @@ try {
 $videoRepository = new VideoRepository($pdo);
 
 $routes = require_once __DIR__ . '/../config/routes.php';
+
+/** @var \Psr\Container\ContainerInterface $diContainer */
+$diContainer = require_once __DIR__ . '/../config/dependencies.php';
+
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 
@@ -32,7 +36,7 @@ $key = "$httpMethod|$pathInfo";
 if (array_key_exists($key, $routes)) {
     $controllerClass = $routes[$key];
 
-    $controller = new $controllerClass($videoRepository);
+    $controller = new $diContainer->get($containerClass);
 } else {
     $controller = new Error404Controller();
 }
