@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/inicio-html.php'; ?>
+<?php $this->insert('inicio-html'); ?>
 
     <main class="container">
 
@@ -22,4 +22,4 @@
 
     </main>
 
-<?php require_once __DIR__ . '/fim-html.php';
+<?php $this->insert('fim-html');

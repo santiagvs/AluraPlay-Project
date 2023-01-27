@@ -1,5 +1,5 @@
 <?php
-  require_once __DIR__ . '/inicio-html.php';
+$this->insert('inicio-html');
 
 ?><ul class="videos__container" alt="videos alura">
     <?php foreach ($videoList as $video): ?>
@@ -23,4 +23,4 @@
       </li>
     <?php endforeach; ?>
   </ul>
-<?php require_once __DIR__ . '/fim-html.php'; ?>
+<?php $this->insert('fim-html');
