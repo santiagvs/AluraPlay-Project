@@ -9,6 +9,7 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\UploadedFileInterface;
 
 class NewVideoController implements RequestHandlerInterface
 {
@@ -39,16 +40,20 @@ class NewVideoController implements RequestHandlerInterface
     }
 
     $video = new Video($url, $title);
-    if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    $files = $request->getUploadedFiles();
+    /**
+     * @var UploadedFileInterface $uploadedImage */
+
+    $uploadedImage = $files['image'];
+
+    if ($uploadedImage->getError() === UPLOAD_ERR_OK) {
       $finfo = new \finfo(FILEINFO_MIME_TYPE);
-      $mimetype = $finfo->file($_FILES['image']['tmp_name']);
+      $tmpFile = $uploadedImage->getStream()->getMetadata('uri');
+      $mimetype = $finfo->file($tmpFile);
 
       if (str_starts_with($mimetype, 'image/')) {
-        $safeFileName = uniqid('upload_') . '_' . pathinfo($_FILES['image']['name'], PATHINFO_BASENAME);
-        move_uploaded_file(
-          $_FILES['image']['tmp_name'],
-          __DIR__ . '/../../public/img/uploads/' . $safeFileName
-        );
+        $safeFileName = uniqid('upload_') . '_' . pathinfo($uploadedImage->getClientFilename(), PATHINFO_BASENAME);
+        $uploadedImage->moveTo(__DIR__ . '/../../public/img/uploads') . $safeFileName;
         $video->setFilePath($safeFileName);
       }
     }
