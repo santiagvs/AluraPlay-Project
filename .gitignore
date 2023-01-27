@@ -4,4 +4,4 @@ create-db.php
 composer.lock
 create-users.php
 config.php
-/public/uploads/*
+/public/img/uploads/*
