@@ -29,12 +29,6 @@ class VideoRepository
     $statement->bindValue(3, $video->getFilePath());
 
     $result = $statement->execute();
-    if ($result === false) {
-      header('Location: /?sucesso=0');
-    } else {
-      header('Location: /?sucesso=1');
-    }
-
     $id = $this->pdo->lastInsertId();
 
     $video->setId(intval($id));

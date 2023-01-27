@@ -53,22 +53,22 @@ class NewVideoController implements RequestHandlerInterface
 
       if (str_starts_with($mimetype, 'image/')) {
         $safeFileName = uniqid('upload_') . '_' . pathinfo($uploadedImage->getClientFilename(), PATHINFO_BASENAME);
-        $uploadedImage->moveTo(__DIR__ . '/../../public/img/uploads') . $safeFileName;
+        $uploadedImage->moveTo(__DIR__ . '/../../public/img/uploads/' . $safeFileName);
         $video->setFilePath($safeFileName);
       }
     }
 
-    $success = $this->videoRepository->add(new Video($url, $title));
+    $success = $this->videoRepository->add($video);
 
     if ($success === false) {
       $this->addErrorMessage('Erro ao cadastrar vídeo.');
       return new Response(302, [
-        'Location' => '/?sucesso=0',
-      ]);
-    } else {
-      return new Response(201, [
-        'Location' => '/?sucesso=1',
+        'Location' => '/novo-video',
       ]);
     }
+
+    return new Response(302, [
+      'Location' => '/?sucesso=1',
+    ]);
   }
 }

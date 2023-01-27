@@ -49,6 +49,8 @@ class EditVideoController implements RequestHandlerInterface
     }
 
     $video = new Video($url, $title);
+    $video->setId($id);
+
     $files = $request->getUploadedFiles();
     /**
      * @var UploadedFileInterface $uploadedImage */
@@ -62,7 +64,7 @@ class EditVideoController implements RequestHandlerInterface
 
       if (str_starts_with($mimetype, 'image/')) {
         $safeFileName = uniqid('upload_') . '_' . pathinfo($uploadedImage->getClientFilename(), PATHINFO_BASENAME);
-        $uploadedImage->moveTo(__DIR__ . '/../../public/img/uploads') . $safeFileName;
+        $uploadedImage->moveTo(__DIR__ . '/../../public/img/uploads/' . $safeFileName);
         $video->setFilePath($safeFileName);
       }
     }
@@ -74,10 +76,10 @@ class EditVideoController implements RequestHandlerInterface
       return new Response(302, [
         'Location' => '/?sucesso=0',
       ]);
-    } else {
-      return new Response(200, [
-        'Location' => '/?sucesso=1',
-      ]);
     }
+
+    return new Response(200, [
+      'Location' => '/?sucesso=1',
+    ]);
   }
 }
