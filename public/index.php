@@ -2,18 +2,9 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Alura\Mvc\Repository\VideoRepository;
 use Alura\Mvc\Controller\Error404Controller;
 
 $config = require_once __DIR__ . '/../config.php';
-
-try {
-    $pdo = new PDO("mysql:host={$config['dbhost']};dbname={$config['dbname']}", "{$config['dbuser']}", "{$config['dbpass']}");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
-$videoRepository = new VideoRepository($pdo);
 
 $routes = require_once __DIR__ . '/../config/routes.php';
 
@@ -36,7 +27,7 @@ $key = "$httpMethod|$pathInfo";
 if (array_key_exists($key, $routes)) {
     $controllerClass = $routes[$key];
 
-    $controller = new $diContainer->get($containerClass);
+    $controller = $diContainer->get($controllerClass);
 } else {
     $controller = new Error404Controller();
 }
