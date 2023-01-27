@@ -1,5 +1,5 @@
 <?php
-$this->insert('inicio-html');
+$this->layout('layout');
 
 ?><ul class="videos__container" alt="videos alura">
     <?php foreach ($videoList as $video): ?>
@@ -23,4 +23,3 @@ $this->insert('inicio-html');
       </li>
     <?php endforeach; ?>
   </ul>
-<?php $this->insert('fim-html');

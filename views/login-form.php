@@ -1,4 +1,4 @@
-<?php $this->insert('inicio-html'); ?>
+<?php $this->layout('layout'); ?>
 
     <main class="container">
 
@@ -21,5 +21,3 @@
         </form>
 
     </main>
-
-<?php $this->insert('fim-html');
